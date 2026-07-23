@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MediFind AI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        body { background: #f5f7fb; color: #132238; font-family: Inter, system-ui, sans-serif; }
+        .sidebar { min-height: 100vh; background: linear-gradient(135deg, #0f172a, #1d4ed8); color: white; }
+        .nav-link { color: rgba(255,255,255,0.85); }
+        .nav-link:hover, .nav-link.active { color: white; }
+        .card { border: 0; border-radius: 20px; box-shadow: 0 12px 30px rgba(15,23,42,0.08); }
+        .chat-card { background: #ffffff; border-radius: 24px; }
+        .chat-box { background: #eff4fb; border: 1px solid #dbeafe; border-radius: 24px; padding: 24px; min-height: 460px; max-height: 520px; overflow-y: auto; }
+        .message-bubble { display: inline-block; padding: 18px 20px; border-radius: 18px; box-shadow: 0 6px 18px rgba(15,23,42,0.06); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+        .chat-bubble-user { background: #2563eb; color: #fff; border-radius: 18px 18px 4px 18px; text-align: left; }
+        .chat-bubble-assistant { background: #ffffff; color: #111827; border-radius: 18px 18px 18px 4px; border: 1px solid #e2e8f0; }
+        .message-row { display: flex; gap: 12px; margin-bottom: 18px; }
+        .message-row.user { justify-content: flex-end; }
+        .message-row.assistant { justify-content: flex-start; }
+        .message-label { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; display: block; }
+        .form-control-lg { border-radius: 14px; }
+        .btn-primary { border-radius: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-md-3 col-lg-2 sidebar p-4">
+                <h3 class="fw-bold mb-4">MediFind AI</h3>
+                <nav class="nav flex-column gap-2">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/"><i class="bi bi-house me-2"></i>Home</a>
+                    <a class="nav-link {% if request.path == '/chat/' %}active{% endif %}" href="/chat/"><i class="bi bi-chat-dots me-2"></i>Chat</a>
+                    <a class="nav-link {% if request.path == '/upload/' %}active{% endif %}" href="/upload/"><i class="bi bi-upload me-2"></i>Upload</a>
+                    <a class="nav-link {% if request.path == '/donors/' %}active{% endif %}" href="/donors/"><i class="bi bi-search me-2"></i>Donors</a>
+                    <a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}" href="/dashboard/"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+                </nav>
+            </aside>
+            <main class="col-md-9 col-lg-10 p-4">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

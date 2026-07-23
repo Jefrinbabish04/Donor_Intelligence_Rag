@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h5 class="text-muted">Total Donors</h5>
+            <h2 class="fw-bold">{{ donor_count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h5 class="text-muted">Uploaded Documents</h5>
+            <h2 class="fw-bold">{{ document_count }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h5 class="text-muted">Indexed Chunks</h5>
+            <h2 class="fw-bold">{{ chunk_count }}</h2>
+        </div>
+    </div>
+</div>
+{% endblock %}

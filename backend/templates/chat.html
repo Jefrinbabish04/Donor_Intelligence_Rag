@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card chat-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h3 class="fw-bold mb-1">AI Chat</h3>
+            <p class="text-muted mb-0">Ask about donors, eligibility, or hospital guidelines.</p>
+        </div>
+        <span class="badge bg-primary">Hybrid RAG</span>
+    </div>
+    <div id="chat-box" class="chat-box mb-3">
+        <div class="message-row assistant">
+            <div class="message-bubble chat-bubble-assistant">
+                <span class="message-label">Assistant</span>
+                Hello! Ask about donor eligibility, blood groups, or hospital guidelines.
+            </div>
+        </div>
+    </div>
+    <form id="chat-form" class="row g-2">
+        <div class="col-md-10">
+            <input id="chat-input" class="form-control form-control-lg" placeholder="Ask about donors or blood guidelines..." required>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary btn-lg w-100" type="submit">Send</button>
+        </div>
+    </form>
+</div>
+<script>
+const chatBox = document.getElementById('chat-box');
+const form = document.getElementById('chat-form');
+const input = document.getElementById('chat-input');
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+
+    appendMessage('user', question);
+    input.value = '';
+    appendMessage('assistant', 'Thinking...');
+
+    const response = await fetch('/api/chat/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ question })
+    });
+
+    const data = await response.json();
+    const bubble = chatBox.lastElementChild;
+    bubble.remove();
+    appendMessage('assistant', data.answer || 'No response');
+});
+
+function appendMessage(role, text) {
+    const row = document.createElement('div');
+    row.className = `message-row ${role}`;
+
+    const bubble = document.createElement('div');
+    bubble.className = role === 'user' ? 'message-bubble chat-bubble-user' : 'message-bubble chat-bubble-assistant';
+    bubble.style.maxWidth = '75%';
+    bubble.innerHTML = `<span class="message-label">${role === 'user' ? 'You' : 'Assistant'}</span>${text}`;
+
+    row.appendChild(bubble);
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+</script>
+{% endblock %}
